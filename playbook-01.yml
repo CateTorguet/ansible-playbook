@@ -1,0 +1,41 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - apache
+  vars:
+    - username: PabloCastillo
+    - home: /home/PabloCastillo
+    - guardar: no                    #Booleano para guardar datos o no
+    - page_title: My Landing Page
+    - page_description: This is my landing page description.
+  tasks:
+    - name: Existe el arhivo?
+      command: cat /home/vagrant/HelloUser.txt
+      register: file_exists
+      ignore_errors: yes
+
+    - name: create file for user
+      file:
+        path: home/vagrant/HelloUser.txt
+        state: touch
+      when: file_exists is failed
+
+    - name: show message if file exists
+      debug:
+        msg: Ya existe el arhivo
+      when: file_exists is succeeded
+
+    - name: Imprimir información
+      debug:
+        msg: "{{ username }} Gestionando..."
+
+    - name: Update apt cache and make sure Vim, Curl and Unzip are installed
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - vim
+        - curl
+        - unzip
+        - tree

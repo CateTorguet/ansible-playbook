@@ -1,0 +1,7 @@
+---
+- name: Mostrar Mensaje desde rol
+  debug:
+   msg: Cambio de rol
+
+- name: Copiar Template
+  copy: src=index.html dest=/var/www/html/index.html
