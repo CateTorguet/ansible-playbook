@@ -7,8 +7,6 @@
     - username: PabloCastillo
     - home: /home/PabloCastillo
     - guardar: no                    #Booleano para guardar datos o no
-    - page_title: My Landing Page
-    - page_description: This is my landing page description.
   tasks:
     - name: Existe el arhivo?
       command: cat /home/vagrant/HelloUser.txt
@@ -26,6 +24,11 @@
         msg: Ya existe el arhivo
       when: file_exists is succeeded
 
+    - name: Copiar cripts confirmación apache
+      copy:
+        src: ./script.sh
+        dest: /home/vagrant
+
     - name: Imprimir información
       debug:
         msg: "{{ username }} Gestionando..."
@@ -35,7 +38,8 @@
         name: "{{ item }}"
         update_cache: yes
       loop:
+        - figlet
+        - unzip
         - vim
         - curl
-        - unzip
         - tree
